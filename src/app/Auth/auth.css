@@ -1,0 +1,140 @@
+/* Reset some default styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+  background: linear-gradient(135deg, #42c2f9, #1b82d1);
+  /* Use a smooth gradient covering full viewport */
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: black;
+}
+
+/* Wrapper container styling */
+.wrapper {
+  background-color: #fff;
+  padding: 30px 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  width: 100%;
+  max-width: 420px;
+  text-align: left;
+  user-select: none;
+  animation: fadeInUp 0.6s ease forwards;
+  box-sizing: border-box;
+}
+
+/* Typography */
+.header {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #4b3f6b;
+  text-align: center;
+}
+
+.tulisan {
+  font-size: 1rem;
+  margin: 10px 0 8px 0;
+  color: #333;
+}
+
+/* Input styling */
+.input {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  border-color: #667eea;
+  outline: none;
+}
+
+/* Button styling */
+.masuk {
+  width: 100%;
+  background: linear-gradient(90deg, #395aeb, #051cf1);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1.2rem;
+  padding: 14px 24px;
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+}
+
+.masuk:hover {
+  background: linear-gradient(90deg, #428bf9, #1b39d1);
+  box-shadow: 0 4px 15px rgba(118, 75, 162, 0.6);
+}
+
+/* Animation for wrapper */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RESPONSIVE STYLES */
+
+/* For screens wider than 768px (e.g. tablets, desktops) */
+@media (min-width: 768px) {
+  body, html {
+    padding: 40px;
+  }
+  .wrapper {
+    padding: 40px 50px;
+    max-width: 480px;
+  }
+  .header {
+    font-size: 2rem;
+  }
+  .masuk {
+    font-size: 1.3rem;
+    padding: 16px 28px;
+  }
+}
+
+/* For large desktops */
+@media (min-width: 1200px) {
+  body, html {
+    padding: 60px;
+  }
+  .wrapper {
+    max-width: 500px;
+    padding: 50px 60px;
+  }
+  .header {
+    font-size: 2.2rem;
+  }
+  .masuk {
+    font-size: 1.4rem;
+    padding: 18px 32px;
+  }
+}
+

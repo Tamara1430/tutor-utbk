@@ -1,0 +1,112 @@
+/* Reset some default styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+  background: linear-gradient(135deg, #42c2f9, #1b82d1);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px; /* Add padding for mobile */
+}
+
+/* Wrapper container styling */
+.wrapper {
+  background-color: #fff;
+  padding: 40px 30px; /* Adjust padding for better mobile experience */
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  width: 100%;
+  max-width: 400px; /* Set a max-width for better desktop layout */
+  text-align: center;
+  user-select: none;
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Typography */
+.header {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 24px; /* Adjust margin for better spacing */
+  color: #000205;
+}
+
+.masuk {
+  width: 100%;
+  background: linear-gradient(90deg, #1381f0, #55c1ff );
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1.2rem;
+  padding: 14px 24px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center; /* Center the content */
+  align-items: center;
+  gap: 10px;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.masuk svg {
+  margin-left: auto;
+  margin-right: 10px;
+  transition: transform 0.3s ease;
+}
+
+.masuk:hover {
+  background: linear-gradient(90deg, #0066ff, #1b4edb);
+  box-shadow: 0 4px 15px rgb(22, 45, 251);
+}
+
+.masuk:hover svg {
+  transform: translateX(6px);
+}
+
+/* Subtle button press effect */
+.masuk:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(6, 95, 250, 0.75);
+}
+
+/* Animation for wrapper */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Styles */
+@media (min-width: 768px) {
+  body, html {
+    padding: 40px; /* Increase padding for larger screens */
+  }
+  .wrapper {
+    padding: 40px 60px; /* Adjust padding for desktop */
+    max-width: 500px; /* Increase max-width for desktop */
+  }
+  .header {
+    font-size: 2rem; /* Increase header size for desktop */
+  }
+  .masuk {
+    font-size: 1.3rem; /* Increase button font size for desktop */
+    padding: 16px 28px; /* Adjust button padding for desktop */
+  }
+}
