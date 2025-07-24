@@ -6,11 +6,8 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'fire
 import { collection, query, where, getDocs, addDoc, doc } from 'firebase/firestore'
 import '../auth.css'
 
-interface EyeIconProps {
-  visible: boolean
-}
-
-function EyeIcon({ visible }: EyeIconProps) {
+// ---- UI Components ----
+function EyeIcon({ visible }: { visible: boolean }) {
   return visible ? (
     <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <circle cx="12" cy="12" r="3" strokeWidth="2"/>
@@ -24,15 +21,7 @@ function EyeIcon({ visible }: EyeIconProps) {
     </svg>
   )
 }
-
-interface InfoAlertProps {
-  show: boolean
-  type?: 'info' | 'warning' | 'success' | 'error'
-  message: string
-  onClose: () => void
-}
-
-function InfoAlert({ show, type = 'info', message, onClose }: InfoAlertProps) {
+function InfoAlert({ show, type = 'info', message, onClose }: { show: boolean, type?: string, message: string, onClose: () => void }) {
   if (!show) return null
   return (
     <div className={`custom-alert custom-alert-${type}`}>
@@ -73,16 +62,13 @@ function InfoAlert({ show, type = 'info', message, onClose }: InfoAlertProps) {
     </div>
   )
 }
-
-interface PasswordInputProps {
+function PasswordInput({ value, onChange, placeholder, show, setShow }: {
   value: string
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   placeholder: string
   show: boolean
   setShow: (show: boolean) => void
-}
-
-function PasswordInput({ value, onChange, placeholder, show, setShow }: PasswordInputProps) {
+}) {
   return (
     <div style={{ position: 'relative', width: '100%' }}>
       <input
@@ -111,18 +97,10 @@ function PasswordInput({ value, onChange, placeholder, show, setShow }: Password
   )
 }
 
-type AlertType = 'info' | 'warning' | 'success' | 'error'
-
-interface AlertState {
-  show: boolean
-  type: AlertType
-  message: string
-  onClose: null | (() => void)
-}
-
+// ---- MAIN COMPONENT ----
 export default function AuthPages() {
   const [page, setPage] = useState<'login' | 'register'>('login')
-  const [tutorId, setTutorId] = useState<string>('')
+  const [tutorId, setTutorId] = useState<string>('JasU7NCjFYDs5nq0Q5iM') // default
   const [username, setUsername] = useState<string>('')
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -130,8 +108,8 @@ export default function AuthPages() {
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showRegPassword, setShowRegPassword] = useState<boolean>(false)
   const [showRegConfirm, setShowRegConfirm] = useState<boolean>(false)
-  const [alert, setAlert] = useState<AlertState>({ show: false, type: 'info', message: '', onClose: null })
-  const showAlert = (type: AlertType, message: string, onClose: null | (() => void) = null) =>
+  const [alert, setAlert] = useState<{ show: boolean, type: string, message: string, onClose: null | (() => void) }>({ show: false, type: 'info', message: '', onClose: null })
+  const showAlert = (type: string, message: string, onClose: null | (() => void) = null) =>
     setAlert({ show: true, type, message, onClose })
   const hideAlert = () => {
     setAlert({ ...alert, show: false })
@@ -142,14 +120,9 @@ export default function AuthPages() {
   const router = useRouter()
 
   useEffect(() => {
+    // Always read from query param tutor if exists, else fallback to default
     const tutor = searchParams.get('tutor')
-    if (!tutor) {
-      showAlert('error', 'Unknown error: Tutor ID tidak ditemukan!', () => {
-        router.replace('/')
-      })
-    } else {
-      setTutorId(tutor)
-    }
+    if (tutor) setTutorId(tutor)
     // eslint-disable-next-line
   }, [searchParams])
 
@@ -171,10 +144,13 @@ export default function AuthPages() {
       const userId = querySnapshot.docs[0].id
 
       await signInWithEmailAndPassword(auth, userEmail, password)
+      // WAJIB: Simpan dua key ini setiap login user!
       localStorage.setItem('user_uid', userId)
+      localStorage.setItem('tutor_uid', tutorId)
 
-      showAlert('success', 'Login berhasil!')
-      window.location.href = '../UserDashboard'
+      showAlert('success', 'Login berhasil!', () => {
+        window.location.href = '../UserDashboard'
+      })
     } catch (err: any) {
       if (err.code === 'auth/invalid-credential') {
         showAlert('error', 'Username dan password tidak sama')
