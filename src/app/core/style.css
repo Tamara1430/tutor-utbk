@@ -140,11 +140,6 @@
   display: flex;
   align-items: center;
 }
-@media (max-width: 500px) {
-  .utbk-hero-section {
-    padding-top: 62px; /* Match dengan navbar height mobile */
-  }
-}
 
 .utbk-hero-content {
   max-width: 1200px;
@@ -245,7 +240,7 @@
 }
 @media (max-width: 500px) {
   .utbk-hero-title { font-size: 1.45rem;}
-  .utbk-hero-section { padding-top: 62px;}
+  .utbk-hero-section { padding-top: 102px;}
   .utbk-navbar-inner { height: 60px; }
   .utbk-btn { font-size: 0.98rem; padding: 0.37rem 1.1rem;}
   .utbk-glass-card { min-width: 0; max-width: 98vw;}
