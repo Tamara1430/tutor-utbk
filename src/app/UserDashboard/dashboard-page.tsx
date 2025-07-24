@@ -24,8 +24,6 @@ const MOTIVATION_QUOTES = [
 
 export default function Dashboard() {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true })
-  const userStats = { name: "Ahmad Rizki" }
 
   // Carousel state
   const [index, setIndex] = useState(0)
@@ -110,7 +108,7 @@ export default function Dashboard() {
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.5 }}
             >
-              Selamat datang kembali, {userStats.name}! 👋
+              Selamat datang kembali 👋
             </motion.h1>
             <motion.p 
               className="text-blue-100"
