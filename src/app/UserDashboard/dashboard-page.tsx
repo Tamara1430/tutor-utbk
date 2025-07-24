@@ -8,46 +8,16 @@ import {
 import { Button } from '@/components/ui/button'
 
 const MOTIVATION_QUOTES = [
-  {
-    text: 'Usaha tidak akan pernah mengkhianati hasil.',
-    author: 'Anies Baswedan'
-  },
-  {
-    text: 'Orang yang tidak pernah membuat kesalahan, tidak pernah mencoba sesuatu yang baru.',
-    author: 'Albert Einstein'
-  },
-  {
-    text: 'Kunci kesuksesan adalah fokus pada tujuan, bukan pada hambatan.',
-    author: 'Jack Ma'
-  },
-  {
-    text: 'Masa depan adalah milik mereka yang percaya pada keindahan mimpi mereka.',
-    author: 'Eleanor Roosevelt'
-  },
-  {
-    text: 'Semangat, kerja keras, dan tekad akan membawamu ke tempat yang kamu impikan.',
-    author: 'B.J. Habibie'
-  },
-  {
-    text: 'Sukses adalah hasil dari persiapan, kerja keras, dan belajar dari kegagalan.',
-    author: 'Colin Powell'
-  },
-  {
-    text: 'Jangan takut gagal, karena kegagalan adalah guru terbaik.',
-    author: 'Soichiro Honda'
-  },
-  {
-    text: 'Mimpi tidak akan menjadi kenyataan tanpa tindakan.',
-    author: 'Walt Disney'
-  },
-  {
-    text: 'Percayalah pada dirimu sendiri, dan segala sesuatu mungkin terjadi.',
-    author: 'Simone Biles'
-  },
-  {
-    text: 'Kesempatan tidak datang dua kali, manfaatkan sebaik mungkin.',
-    author: 'Chairul Tanjung'
-  }
+  { text: 'Usaha tidak akan pernah mengkhianati hasil.', author: 'Anies Baswedan' },
+  { text: 'Orang yang tidak pernah membuat kesalahan, tidak pernah mencoba sesuatu yang baru.', author: 'Albert Einstein' },
+  { text: 'Kunci kesuksesan adalah fokus pada tujuan, bukan pada hambatan.', author: 'Jack Ma' },
+  { text: 'Masa depan adalah milik mereka yang percaya pada keindahan mimpi mereka.', author: 'Eleanor Roosevelt' },
+  { text: 'Semangat, kerja keras, dan tekad akan membawamu ke tempat yang kamu impikan.', author: 'B.J. Habibie' },
+  { text: 'Sukses adalah hasil dari persiapan, kerja keras, dan belajar dari kegagalan.', author: 'Colin Powell' },
+  { text: 'Jangan takut gagal, karena kegagalan adalah guru terbaik.', author: 'Soichiro Honda' },
+  { text: 'Mimpi tidak akan menjadi kenyataan tanpa tindakan.', author: 'Walt Disney' },
+  { text: 'Percayalah pada dirimu sendiri, dan segala sesuatu mungkin terjadi.', author: 'Simone Biles' },
+  { text: 'Kesempatan tidak datang dua kali, manfaatkan sebaik mungkin.', author: 'Chairul Tanjung' }
 ]
 
 export default function Dashboard() {
@@ -168,7 +138,7 @@ export default function Dashboard() {
             <svg width={22} height={22} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" strokeWidth={2}/></svg>
           </button>
           {/* Carousel Slide */}
-          <div className="flex-1 px-8 text-center relative">
+          <div className="flex-1 px-8 text-center relative min-h-[72px] flex flex-col justify-center items-center">
             <AnimatePresence custom={direction} mode="wait">
               <motion.div
                 key={index}
@@ -177,7 +147,7 @@ export default function Dashboard() {
                 initial="enter"
                 animate="center"
                 exit="exit"
-                className="absolute left-0 right-0"
+                className="w-full"
               >
                 <div className="text-lg md:text-xl font-semibold text-gray-800">
                   “{MOTIVATION_QUOTES[index].text}”
@@ -198,16 +168,17 @@ export default function Dashboard() {
             <svg width={22} height={22} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" strokeWidth={2}/></svg>
           </button>
         </div>
-        <div className="flex gap-2 justify-center mt-6">
-          {MOTIVATION_QUOTES.map((_, i) => (
-            <span
-              key={i}
-              className={`w-2.5 h-2.5 rounded-full transition-all duration-200
-                ${index === i ? "bg-blue-500" : "bg-gray-300"}`}
-            />
-          ))}
-        </div>
       </motion.div>
+      {/* Dot indicator moved outside */}
+      <div className="flex gap-2 justify-center mt-2 mb-4">
+        {MOTIVATION_QUOTES.map((_, i) => (
+          <span
+            key={i}
+            className={`w-2.5 h-2.5 rounded-full transition-all duration-200
+              ${index === i ? "bg-blue-500" : "bg-gray-300"}`}
+          />
+        ))}
+      </div>
 
       {/* Quick Actions */}
       <motion.div
