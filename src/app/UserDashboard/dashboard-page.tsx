@@ -6,6 +6,8 @@ import {
   FileText, Play, BookOpen, Award
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+
 
 const MOTIVATION_QUOTES = [
   { text: 'Usaha tidak akan pernah mengkhianati hasil.', author: 'Anies Baswedan' },
@@ -195,10 +197,10 @@ export default function Dashboard() {
         </motion.h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { icon: FileText, label: 'Mulai Tryout', color: 'bg-blue-500', hoverColor: 'hover:bg-blue-600' },
-            { icon: Play, label: 'Tonton Video', color: 'bg-green-500', hoverColor: 'hover:bg-green-600' },
-            { icon: BookOpen, label: 'Baca Materi', color: 'bg-purple-500', hoverColor: 'hover:bg-purple-600' },
-            { icon: Award, label: 'Lihat Prestasi', color: 'bg-orange-500', hoverColor: 'hover:bg-orange-600' },
+            { icon: FileText, label: 'Bank Soal', color: 'bg-blue-500', hoverColor: 'hover:bg-blue-600', href: '/Bank-Soal' },
+            { icon: Play, label: 'Tonton Video', color: 'bg-green-500', hoverColor: 'hover:bg-green-600', href: 'video-learning' },
+            { icon: BookOpen, label: 'Baca Materi', color: 'bg-purple-500', hoverColor: 'hover:bg-purple-600', href: 'https://drive.google.com/file/d/1KrdOINVyLrcbMhdQn7mkVUSApedsr14h/view?usp=drive_link' },
+            { icon: Award, label: 'Lihat Histori', color: 'bg-orange-500', hoverColor: 'hover:bg-orange-600', href: '/exam-history' },
           ].map((action, idx) => (
             <motion.div
               key={action.label}
