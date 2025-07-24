@@ -5,9 +5,7 @@ import { useRef, useState } from 'react'
 import { 
   FileText, Play, BookOpen, Award
 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-
 
 const MOTIVATION_QUOTES = [
   { text: 'Usaha tidak akan pernah mengkhianati hasil.', author: 'Anies Baswedan' },
@@ -22,14 +20,21 @@ const MOTIVATION_QUOTES = [
   { text: 'Kesempatan tidak datang dua kali, manfaatkan sebaik mungkin.', author: 'Chairul Tanjung' }
 ]
 
+const quickActions = [
+  { icon: FileText, label: 'Bank Soal', color: 'bg-blue-500', hoverColor: 'hover:bg-blue-600', href: '/Bank-Soal', external: false },
+  { icon: Play, label: 'Tonton Video', color: 'bg-green-500', hoverColor: 'hover:bg-green-600', href: '/video-learning', external: false },
+  { icon: BookOpen, label: 'Baca Materi', color: 'bg-purple-500', hoverColor: 'hover:bg-purple-600', href: 'https://drive.google.com/file/d/1KrdOINVyLrcbMhdQn7mkVUSApedsr14h/view?usp=drive_link', external: true },
+  { icon: Award, label: 'Lihat Histori', color: 'bg-orange-500', hoverColor: 'hover:bg-orange-600', href: '/exam-history', external: false },
+]
+
 export default function Dashboard() {
   const ref = useRef(null)
+  const isInView = useInView(ref, { once: true })
 
   // Carousel state
   const [index, setIndex] = useState(0)
-  const [direction, setDirection] = useState(0) // -1: left, 1: right
+  const [direction, setDirection] = useState(0)
 
-  // Animasi carousel
   const slideVariants = {
     enter: (direction: number) => ({
       x: direction > 0 ? 300 : -300,
@@ -89,7 +94,6 @@ export default function Dashboard() {
         whileHover={{ scale: 1.02 }}
         className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 text-white card-hover relative overflow-hidden"
       >
-        {/* Animated background elements */}
         <motion.div
           className="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full"
           animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
@@ -194,33 +198,59 @@ export default function Dashboard() {
           Aksi Cepat
         </motion.h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { icon: FileText, label: 'Bank Soal', color: 'bg-blue-500', hoverColor: 'hover:bg-blue-600', href: '/Bank-Soal' },
-            { icon: Play, label: 'Tonton Video', color: 'bg-green-500', hoverColor: 'hover:bg-green-600', href: 'video-learning' },
-            { icon: BookOpen, label: 'Baca Materi', color: 'bg-purple-500', hoverColor: 'hover:bg-purple-600', href: 'https://drive.google.com/file/d/1KrdOINVyLrcbMhdQn7mkVUSApedsr14h/view?usp=drive_link' },
-            { icon: Award, label: 'Lihat Histori', color: 'bg-orange-500', hoverColor: 'hover:bg-orange-600', href: '/exam-history' },
-          ].map((action, idx) => (
-            <motion.div
-              key={action.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 1.3 + idx * 0.1 }}
-              whileHover={{ 
-                scale: 1.05,
-                boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15)"
-              }}
-              whileTap={{ scale: 0.95 }}
-              className={`${action.color} ${action.hoverColor} text-white p-4 rounded-lg cursor-pointer transition-all duration-300 btn-hover-lift`}
-            >
-              <motion.div 
-                className="flex flex-col items-center space-y-2"
-                whileHover={{ y: -2 }}
+          {quickActions.map((action, idx) =>
+            action.external ? (
+              <a
+                key={action.label}
+                href={action.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block"
               >
-                <action.icon className="h-6 w-6" />
-                <span className="text-sm font-medium text-center">{action.label}</span>
-              </motion.div>
-            </motion.div>
-          ))}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 1.3 + idx * 0.1 }}
+                  whileHover={{ 
+                    scale: 1.05,
+                    boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15)"
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`${action.color} ${action.hoverColor} text-white p-4 rounded-lg cursor-pointer transition-all duration-300 btn-hover-lift`}
+                >
+                  <motion.div 
+                    className="flex flex-col items-center space-y-2"
+                    whileHover={{ y: -2 }}
+                  >
+                    <action.icon className="h-6 w-6" />
+                    <span className="text-sm font-medium text-center">{action.label}</span>
+                  </motion.div>
+                </motion.div>
+              </a>
+            ) : (
+              <Link href={action.href} key={action.label} className="block">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 1.3 + idx * 0.1 }}
+                  whileHover={{ 
+                    scale: 1.05,
+                    boxShadow: "0 10px 25px rgba(0, 0, 0, 0.15)"
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`${action.color} ${action.hoverColor} text-white p-4 rounded-lg cursor-pointer transition-all duration-300 btn-hover-lift`}
+                >
+                  <motion.div 
+                    className="flex flex-col items-center space-y-2"
+                    whileHover={{ y: -2 }}
+                  >
+                    <action.icon className="h-6 w-6" />
+                    <span className="text-sm font-medium text-center">{action.label}</span>
+                  </motion.div>
+                </motion.div>
+              </Link>
+            )
+          )}
         </div>
       </motion.div>
     </motion.div>
