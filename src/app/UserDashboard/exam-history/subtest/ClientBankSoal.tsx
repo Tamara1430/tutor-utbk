@@ -13,8 +13,8 @@ import {
 import { useRouter } from "next/navigation"
 import { Button } from '@/components/ui/button'
 import { getDownloadURL, ref } from "firebase/storage"
-import { storage } from "../../../firebase/config"
-
+import { storage, auth, db } from "../../../firebase/config"
+import { doc, getDoc } from "firebase/firestore"
 
 // SUBTEST NAMES
 const SUBTESTS = [
@@ -27,7 +27,6 @@ const SUBTESTS = [
   "Penalaran Matematika"
 ]
 
-// TIPE DATA HASIL UJIAN
 type SubtestResult = {
   date: string
   duration: string
@@ -38,31 +37,64 @@ type SubtestResult = {
   wrong: number
 } | null
 
-// KONFIGURASI USER DAN SESI (ganti sesuai kebutuhan project)
-const username = "Titan Samuel"    // <- Ganti dengan username login, atau auto detect dari localStorage/Firebase Auth
-const sesi = "Premium"             // <- Ganti dengan sesi aktif user
-
-
 export default function SubtestHistory() {
-  // MENYIMPAN HASIL FETCH TIAP SUBTEST
   const [results, setResults] = useState<Record<string, SubtestResult>>({})
   const [loading, setLoading] = useState(true)
+  const [username, setUsername] = useState("")
+  const [sesi, setSesi] = useState("")
+  const [userReady, setUserReady] = useState(false)
   const router = useRouter()
 
+  // Fetch user info (username, sesi) from Firebase Auth & Firestore
+  useEffect(() => {
+    async function fetchUser() {
+      // Tunggu Firebase Auth siap
+      const unsubscribe = auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          // 1. Coba cek Firestore /user/{uid}
+          let uname = "";
+          let sesiAktif = "";
+          try {
+            const userDoc = await getDoc(doc(db, "user", user.uid))
+            if (userDoc.exists()) {
+              const data = userDoc.data()
+              uname = data.username || user.displayName || user.email || ""
+              sesiAktif = data.sesi || ""
+            }
+          } catch (e) {
+            // fallback manual
+            uname = user.displayName || user.email || ""
+            sesiAktif = ""
+          }
+          // 2. Fallback jika Firestore kosong
+          if (!uname) uname = user.displayName || user.email || ""
+          setUsername(uname)
+          setSesi(sesiAktif || "Premium") // Ganti "Premium" dengan default jika Firestore tidak ada field sesi
+          setUserReady(true)
+        } else {
+          // Belum login, redirect ke halaman login
+          setUsername("")
+          setSesi("")
+          setUserReady(true)
+          router.push("/login")
+        }
+      })
+      return () => unsubscribe()
+    }
+    fetchUser()
+  }, [router])
 
   // FETCH DATA DARI FIREBASE STORAGE
   useEffect(() => {
+    if (!userReady || !username || !sesi) return
     let cancelled = false
-
     async function fetchAll() {
       setLoading(true)
       const out: Record<string, SubtestResult> = {}
       for (const subtest of SUBTESTS) {
-        // Nama file: final_{username}_{sesi}_{subtest_with_underscore}.json
         const safeSubtest = subtest.replace(/\s+/g, "_")
         const fileName = `final_${username}_${sesi}_${safeSubtest}.json`
         const filePath = `JawabanUser/${username}/sesi/${sesi}/${fileName}`
-
         try {
           const fileRef = ref(storage, filePath)
           const url = await getDownloadURL(fileRef)
@@ -78,7 +110,6 @@ export default function SubtestHistory() {
             wrong: (data.result?.total ?? 70) - (data.result?.correct ?? 0),
           }
         } catch (e) {
-          // Jika tidak ada file, null (atau default 0)
           out[subtest] = null
         }
       }
@@ -89,7 +120,7 @@ export default function SubtestHistory() {
     }
     fetchAll()
     return () => { cancelled = true }
-  }, [])
+  }, [username, sesi, userReady])
 
   // STATISTIK SUMMARY
   const subtestsWithResult = SUBTESTS.filter(st => results[st])
@@ -161,7 +192,6 @@ export default function SubtestHistory() {
         variants={containerVariants}
         className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4"
       >
-        {/* Total Ujian */}
         <motion.div
           variants={itemVariants}
           whileHover={{ scale: 1.05, boxShadow: "0 8px 32px rgba(0,0,0,0.09)" }}
@@ -179,7 +209,6 @@ export default function SubtestHistory() {
             <FileText className="h-6 w-6 text-blue-500" />
           </div>
         </motion.div>
-        {/* Rata-rata Nilai */}
         <motion.div
           variants={itemVariants}
           whileHover={{ scale: 1.05, boxShadow: "0 8px 32px rgba(0,0,0,0.09)" }}
@@ -196,7 +225,6 @@ export default function SubtestHistory() {
             <BarChart3 className="h-6 w-6 text-teal-500" />
           </div>
         </motion.div>
-        {/* Nilai Terbaik */}
         <motion.div
           variants={itemVariants}
           whileHover={{ scale: 1.05, boxShadow: "0 8px 32px rgba(0,0,0,0.09)" }}
@@ -242,7 +270,6 @@ export default function SubtestHistory() {
               className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 card-hover"
             >
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-                {/* Left */}
                 <div className="flex-1">
                   <div className="flex items-start justify-between mb-3">
                     <div>
@@ -268,7 +295,6 @@ export default function SubtestHistory() {
                       {data ? data.difficulty : '-'}
                     </span>
                   </div>
-                  {/* Score/Correct/Bar */}
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                     <div className="text-center p-3 bg-gray-50 rounded-lg">
                       <p className="text-sm text-gray-600">Skor</p>
@@ -299,16 +325,15 @@ export default function SubtestHistory() {
                     </div>
                   </div>
                 </div>
-                {/* Actions */}
                 <div className="flex flex-col space-y-2 lg:ml-6">
                   <Button
                     variant="outline"
                     size="sm"
                     className="w-full lg:w-auto btn-hover-lift"
                     onClick={() =>
-                    router.push(
+                      router.push(
                         `/UserDashboard/exam-history/bedah?sesi=${encodeURIComponent(sesi)}&subtest=${encodeURIComponent(subtest)}`
-                    )
+                      )
                     }
                     disabled={!data}
                   >
