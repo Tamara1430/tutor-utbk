@@ -21,7 +21,7 @@ export default function Hero() {
            Bergabung dengan CerdasYuk! berarti kamu akan mendapatkan bimbingan dari tutor berpengalaman, materi terstruktur, dan latihan soal yang lengkap untuk persiapan masuk PTN. Jangan lewatkan kesempatan untuk mempersiapkan diri sejak sekarang dan wujudkan PTN impianmu bersama kami!
           </p>
           <div className="utbk-hero-actions">
-            <button className="utbk-btn utbk-btn-primary" style={{color: "Blue", backgroundColor:"white"}}>Mulai Gratis</button>
+            <button className="utbk-btn utbk-btn-primary" style={{color: "Blue", backgroundColor:"white"}}>Mulai Sekarang</button>
           </div>
         </div>
         <div className="utbk-hero-card-wrap">
