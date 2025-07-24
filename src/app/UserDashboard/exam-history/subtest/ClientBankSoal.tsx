@@ -13,7 +13,7 @@ import {
 import { useRouter } from "next/navigation"
 import { Button } from '@/components/ui/button'
 import { getDownloadURL, ref } from "firebase/storage"
-import { storage, auth, db } from "../../../firebase/config"
+import { storage, db } from "../../../firebase/config"
 import { doc, getDoc } from "firebase/firestore"
 
 // SUBTEST NAMES
@@ -45,41 +45,34 @@ export default function SubtestHistory() {
   const [userReady, setUserReady] = useState(false)
   const router = useRouter()
 
-  // Fetch user info (username, sesi) from Firebase Auth & Firestore
+  // Ambil user dari localStorage & Firestore
   useEffect(() => {
     async function fetchUser() {
-      // Tunggu Firebase Auth siap
-      const unsubscribe = auth.onAuthStateChanged(async (user) => {
-        if (user) {
-          // 1. Coba cek Firestore /user/{uid}
-          let uname = "";
-          let sesiAktif = "";
-          try {
-            const userDoc = await getDoc(doc(db, "user", user.uid))
-            if (userDoc.exists()) {
-              const data = userDoc.data()
-              uname = data.username || user.displayName || user.email || ""
-              sesiAktif = data.sesi || ""
-            }
-          } catch (e) {
-            // fallback manual
-            uname = user.displayName || user.email || ""
-            sesiAktif = ""
-          }
-          // 2. Fallback jika Firestore kosong
-          if (!uname) uname = user.displayName || user.email || ""
-          setUsername(uname)
-          setSesi(sesiAktif || "Premium") // Ganti "Premium" dengan default jika Firestore tidak ada field sesi
+      const uid = typeof window !== "undefined" ? localStorage.getItem("user_uid") : null
+      const tutorId = typeof window !== "undefined" ? localStorage.getItem("tutor_uid") : null
+      if (!uid || !tutorId) {
+        router.push("/login")
+        return
+      }
+      try {
+        const userDoc = await getDoc(doc(db, "tutor", tutorId, "user", uid))
+        if (userDoc.exists()) {
+          const data = userDoc.data()
+          setUsername(data.username || "")
+          setSesi(data.sesi || "Premium") // fallback default jika sesi kosong
           setUserReady(true)
         } else {
-          // Belum login, redirect ke halaman login
           setUsername("")
           setSesi("")
           setUserReady(true)
           router.push("/login")
         }
-      })
-      return () => unsubscribe()
+      } catch (e) {
+        setUsername("")
+        setSesi("")
+        setUserReady(true)
+        router.push("/login")
+      }
     }
     fetchUser()
   }, [router])
