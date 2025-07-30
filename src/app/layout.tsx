@@ -1,9 +1,9 @@
-import type { ReactNode } from 'react';
+aimport type { ReactNode } from 'react';
 import './globals.css';
 import { PaketKelasProvider } from '@/app/context/PaketKelasContext'; // ⬅️ Import Provider saja
 
 export const metadata = {
-  title: 'StudyPlatform',
+  title: 'Platform Belajar UTBK',
   description: 'UTBK, Tryout, Video Pembelajaran',
   icons: {
     icon: '/favicon.png',
