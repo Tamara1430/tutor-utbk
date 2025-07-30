@@ -1,4 +1,4 @@
-aimport type { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import './globals.css';
 import { PaketKelasProvider } from '@/app/context/PaketKelasContext'; // ⬅️ Import Provider saja
 
