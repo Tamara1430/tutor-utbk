@@ -5,6 +5,8 @@ import { PaketKelasProvider } from '@/app/context/PaketKelasContext'; // ⬅️ 
 export const metadata = {
   title: 'StudyPlatform',
   description: 'UTBK, Tryout, Video Pembelajaran',
+  icons: {
+    icon: '/favicon.png',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
