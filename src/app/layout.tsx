@@ -7,6 +7,7 @@ export const metadata = {
   description: 'UTBK, Tryout, Video Pembelajaran',
   icons: {
     icon: '/favicon.png',
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
