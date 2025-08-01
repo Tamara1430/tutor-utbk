@@ -24,7 +24,7 @@ export default function Contact() {
               <div className="utbk-contact-icon"><FaEnvelope /></div>
               <div>
                 <div className="utbk-contact-item-title">Email</div>
-                <div className="utbk-contact-item-desc">info@utbktutor.com</div>
+                <div className="utbk-contact-item-desc">jihansajidah31@gmail.com</div>
               </div>
             </div>
             <div className="utbk-contact-item">
@@ -35,35 +35,12 @@ export default function Contact() {
               </div>
             </div>
           </div>
-          <div className="utbk-contact-formwrap">
-            <form
-              className="utbk-contact-form"
-              onSubmit={e => {
-                e.preventDefault();
-                alert('Pesan Anda telah terkirim! Kami akan merespons dalam 24 jam.');
-                e.target.reset();
-              }}
-            >
-              <div>
-                <label className="utbk-contact-label">Nama Lengkap</label>
-                <input type="text" required className="utbk-contact-input" />
-              </div>
-              <div>
-                <label className="utbk-contact-label">Email</label>
-                <input type="email" required className="utbk-contact-input" />
-              </div>
-              <div>
-                <label className="utbk-contact-label">Nomor WhatsApp</label>
-                <input type="tel" required className="utbk-contact-input" />
-              </div>
-              <div>
-                <label className="utbk-contact-label">Pesan</label>
-                <textarea rows={4} required className="utbk-contact-input"></textarea>
-              </div>
-              <button type="submit" className="utbk-contact-btn">
-                Kirim Pesan
-              </button>
-            </form>
+          <div className="utbk-contact-imagewrap">
+            <img
+              src="/contact-illustration.png"
+              alt="Ilustrasi Hubungi Kami"
+              className="utbk-contact-image"
+            />
           </div>
         </div>
       </div>
@@ -184,6 +161,21 @@ export default function Contact() {
             gap: 2.3rem;
           }
         }
+        .utbk-contact-imagewrap {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
+        }
+        .utbk-contact-image {
+          max-width: 100%;
+          max-height: 380px;
+          border-radius: 1.4rem;
+          object-fit: contain;
+          box-shadow: 0 8px 32px 0 rgba(40,67,150,0.09);
+        }
+
       `}</style>
     </section>
   );
