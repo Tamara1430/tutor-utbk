@@ -39,7 +39,7 @@ export default function Contact() {
             <img
               src="/contact-illustration.png"
               alt="Ilustrasi Hubungi Kami"
-              className="utbk-contact-image"
+              className="utbk-contact-imagewrap"
             />
           </div>
         </div>
