@@ -7,22 +7,22 @@ export default function Footer() {
       <div className="utbk-footer-container">
         <div className="utbk-footer-grid">
           <div>
-            <h3 className="utbk-footer-logo">UTBK Tutor</h3>
+            <h3 className="utbk-footer-logo">CerdasYuk</h3>
             <p className="utbk-footer-desc">Platform terdepan untuk tutor UTBK profesional</p>
           </div>
           <div>
             <h4 className="utbk-footer-title">Platform</h4>
             <ul className="utbk-footer-list">
-              <li><a href="#" className="utbk-footer-link">Website Builder</a></li>
+              <li><a href="#" className="utbk-footer-link">Bank Soal</a></li>
               <li><a href="#" className="utbk-footer-link">Analytics</a></li>
-              <li><a href="#" className="utbk-footer-link">Payment</a></li>
+              <li><a href="#" className="utbk-footer-link">Modul Pembelajaran</a></li>
             </ul>
           </div>
           <div>
             <h4 className="utbk-footer-title">Dukungan</h4>
             <ul className="utbk-footer-list">
               <li><a href="#" className="utbk-footer-link">Help Center</a></li>
-              <li><a href="#" className="utbk-footer-link">Tutorial</a></li>
+              <li><a href="#" className="utbk-footer-link">Komunitas</a></li>
               <li><a href="#" className="utbk-footer-link">FAQ</a></li>
             </ul>
           </div>
@@ -36,7 +36,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="utbk-footer-copyright">
-          <p>&copy; 2024 UTBK Tutor Platform. All rights reserved.</p>
+          <p>&copy; 2025 CerdasYuk Platform. All rights reserved.</p>
         </div>
       </div>
       <style jsx>{`
